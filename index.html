@@ -1,0 +1,673 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HIGIENE X | Detecta el error</title>
+
+<style>
+:root {
+    --fondo: #07111f;
+    --panel: #101e30;
+    --verde: #39ff88;
+    --azul: #00d9ff;
+    --texto: #edf7ff;
+    --gris: #9db1c7;
+    --rojo: #ff5575;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 25px 15px;
+    background:
+        radial-gradient(circle at top, #12334b 0%, transparent 45%),
+        var(--fondo);
+    color: var(--texto);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.contenedor {
+    max-width: 850px;
+    margin: auto;
+}
+
+.encabezado {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logo {
+    color: var(--verde);
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    margin-bottom: 15px;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(32px, 6vw, 55px);
+    text-transform: uppercase;
+    text-shadow: 0 0 20px #39ff8860;
+}
+
+h1 span {
+    color: var(--verde);
+}
+
+.subtitulo {
+    color: var(--gris);
+    line-height: 1.6;
+}
+
+.etiqueta {
+    display: inline-block;
+    padding: 7px 13px;
+    margin-top: 10px;
+    border: 1px solid var(--verde);
+    border-radius: 20px;
+    color: var(--verde);
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.panel {
+    background: linear-gradient(145deg, #122238, #0b1727);
+    border: 1px solid #25435b;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 15px 45px #0005;
+}
+
+.informacion {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.dato {
+    background: #071522;
+    border: 1px solid #243e52;
+    border-radius: 10px;
+    padding: 12px 15px;
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+}
+
+.dato small {
+    display: block;
+    color: var(--gris);
+    font-size: 11px;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+}
+
+.dato strong {
+    color: var(--verde);
+    font-size: 22px;
+}
+
+.barra-fondo {
+    height: 8px;
+    background: #26394b;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+.barra {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--azul), var(--verde));
+    transition: width 0.4s;
+}
+
+.categoria {
+    color: var(--azul);
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.pregunta {
+    font-size: clamp(21px, 4vw, 29px);
+    line-height: 1.4;
+    margin: 0 0 12px;
+}
+
+.instruccion {
+    color: var(--gris);
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+
+.opciones {
+    display: grid;
+    gap: 12px;
+}
+
+.opcion {
+    width: 100%;
+    padding: 16px;
+    text-align: left;
+    border-radius: 11px;
+    border: 1px solid #2b465e;
+    background: #0b1929;
+    color: var(--texto);
+    font-size: 15px;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.opcion:hover:not(:disabled) {
+    border-color: var(--verde);
+    background: #142b35;
+    transform: translateY(-2px);
+}
+
+.opcion:disabled {
+    cursor: default;
+}
+
+.opcion.correcta {
+    border-color: var(--verde);
+    background: #103728;
+}
+
+.opcion.incorrecta {
+    border-color: var(--rojo);
+    background: #401d2b;
+}
+
+.letra {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border: 1px solid #456076;
+    border-radius: 8px;
+    color: var(--verde);
+    font-weight: bold;
+}
+
+#retroalimentacion {
+    display: none;
+    margin-top: 20px;
+    padding: 17px;
+    border-radius: 10px;
+    line-height: 1.6;
+    background: #081724;
+    border-left: 4px solid var(--verde);
+}
+
+#retroalimentacion h3 {
+    margin: 0 0 8px;
+    color: var(--verde);
+}
+
+#retroalimentacion p {
+    margin: 0;
+    color: #d3e2ef;
+}
+
+.boton {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 10px;
+    background: var(--verde);
+    color: #06131b;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.boton:hover {
+    background: #a0ffc5;
+    transform: translateY(-2px);
+}
+
+.boton-secundario {
+    background: transparent;
+    border: 1px solid var(--verde);
+    color: var(--verde);
+}
+
+.boton-secundario:hover {
+    background: #143a2a;
+    color: white;
+}
+
+.pie {
+    text-align: center;
+    color: #7f95aa;
+    font-size: 12px;
+    line-height: 1.7;
+    margin-top: 22px;
+}
+
+.resultado {
+    display: none;
+    text-align: center;
+}
+
+.resultado-icono {
+    font-size: 55px;
+    margin: 15px 0;
+}
+
+.resultado h2 {
+    font-size: 30px;
+    color: var(--verde);
+}
+
+.resultado p {
+    line-height: 1.7;
+    color: #c7d8e8;
+}
+
+.puntuacion-final {
+    font-size: 48px;
+    color: var(--verde);
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.nota {
+    font-size: 12px;
+    color: var(--gris);
+    margin-top: 15px;
+}
+
+@media (max-width: 500px) {
+    .panel {
+        padding: 18px;
+    }
+
+    .dato {
+        min-width: 90px;
+    }
+
+    .opcion {
+        padding: 13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <header class="encabezado">
+        <div class="logo">HIGIENE X // SISTEMA DE DESAFÍOS</div>
+
+        <h1>DETECTA <span>EL ERROR</span></h1>
+
+        <p class="subtitulo">
+            Analiza las situaciones, identifica los malos hábitos
+            y demuestra cuánto sabes sobre higiene y salud.
+        </p>
+
+        <div class="etiqueta">MODO DE APRENDIZAJE ACTIVADO</div>
+    </header>
+
+    <main class="panel">
+
+        <section id="zonaJuego">
+
+            <div class="informacion">
+                <div class="dato">
+                    <small>DESAFÍO</small>
+                    <strong id="numero">1/10</strong>
+                </div>
+
+                <div class="dato">
+                    <small>PUNTOS</small>
+                    <strong id="puntos">0</strong>
+                </div>
+
+                <div class="dato">
+                    <small>ACIERTOS</small>
+                    <strong id="aciertos">0</strong>
+                </div>
+            </div>
+
+            <div class="barra-fondo">
+                <div class="barra" id="barra"></div>
+            </div>
+
+            <div class="categoria" id="categoria">DESAFÍO DE HIGIENE</div>
+
+            <h2 class="pregunta" id="pregunta"></h2>
+
+            <p class="instruccion">
+                Lee la situación y selecciona la opción que identifica
+                el error o el hábito correcto.
+            </p>
+
+            <div class="opciones" id="opciones"></div>
+
+            <div id="retroalimentacion" aria-live="polite">
+                <h3 id="tituloRetro"></h3>
+                <p id="textoRetro"></p>
+            </div>
+
+            <button class="boton" id="botonSiguiente" style="display:none"
+                onclick="siguientePregunta()">
+                SIGUIENTE DESAFÍO →
+            </button>
+
+        </section>
+
+        <section class="resultado" id="zonaResultado">
+            <div class="resultado-icono" id="iconoResultado">🏆</div>
+
+            <h2 id="tituloResultado">DESAFÍO COMPLETADO</h2>
+
+            <p id="mensajeResultado"></p>
+
+            <div class="puntuacion-final" id="puntuacionFinal">0/100</div>
+
+            <p id="detalleResultado"></p>
+
+            <button class="boton" onclick="reiniciarJuego()">
+                VOLVER A JUGAR
+            </button>
+        </section>
+
+    </main>
+
+    <footer class="pie">
+        HIGIENE X · CAMBIA TUS HÁBITOS, TRANSFORMA TU SALUD.<br>
+        Aprende hoy para proteger tu salud todos los días.
+    </footer>
+
+</div>
+
+<script>
+const preguntas = [
+    {
+        categoria: "LAVADO DE MANOS",
+        pregunta: "Antes de comer, una estudiante se enjuaga las manos solo con agua durante dos segundos. ¿Cuál es el error?",
+        opciones: [
+            "Lavarse las manos antes de comer.",
+            "No utilizar jabón ni frotarse las manos durante suficiente tiempo.",
+            "Secarse las manos después de lavarlas."
+        ],
+        correcta: 1,
+        explicacion: "¡Correcto! Para limpiar bien las manos, utiliza agua y jabón, frota todas las superficies durante al menos 20 segundos y enjuaga. Después, sécalas con una toalla limpia."
+    },
+    {
+        categoria: "HIGIENE BUCAL",
+        pregunta: "Un estudiante se cepilla los dientes solamente los domingos porque dice que es suficiente. ¿Qué debería hacer?",
+        opciones: [
+            "Cepillarse los dientes al menos dos veces al día.",
+            "Cepillarse únicamente cuando tenga mal aliento.",
+            "Enjuagarse la boca con agua una vez por semana."
+        ],
+        correcta: 0,
+        explicacion: "¡Muy bien! Lo recomendable es cepillarse los dientes al menos dos veces al día con pasta dental con flúor, especialmente antes de dormir."
+    },
+    {
+        categoria: "HIGIENE PERSONAL",
+        pregunta: "Después de hacer ejercicio y sudar mucho, una persona se pone la misma ropa húmeda durante el resto del día. ¿Qué hábito debería mejorar?",
+        opciones: [
+            "Dejar de hacer ejercicio.",
+            "Utilizar ropa húmeda para ahorrar agua.",
+            "Cambiarse la ropa sudada y mantener el cuerpo limpio."
+        ],
+        correcta: 2,
+        explicacion: "¡Exacto! Cambiarse la ropa sudada y mantener la piel limpia ayuda a reducir los malos olores y las molestias cutáneas."
+    },
+    {
+        categoria: "HIGIENE DE LOS ALIMENTOS",
+        pregunta: "Antes de preparar una ensalada, alguien utiliza verduras sin lavarlas. ¿Cuál es el riesgo?",
+        opciones: [
+            "Las verduras pierden todas sus vitaminas.",
+            "Pueden quedar suciedad y microorganismos que causen enfermedades.",
+            "Las verduras se vuelven más nutritivas."
+        ],
+        correcta: 1,
+        explicacion: "¡Correcto! Las frutas y verduras deben lavarse con agua potable antes de consumirlas o prepararlas."
+    },
+    {
+        categoria: "HIGIENE RESPIRATORIA",
+        pregunta: "Un estudiante estornuda directamente sobre sus compañeros sin cubrirse la boca ni la nariz. ¿Qué debería hacer?",
+        opciones: [
+            "Cubrirse con un pañuelo o con el codo y lavarse las manos cuando corresponda.",
+            "Cubrirse únicamente después de estornudar varias veces.",
+            "Limpiarse las manos en la ropa y continuar."
+        ],
+        correcta: 0,
+        explicacion: "¡Muy bien! Cubrirse con un pañuelo desechable o con el codo ayuda a evitar la dispersión de gotitas. Después, desecha el pañuelo y lávate las manos."
+    },
+    {
+        categoria: "CUIDADO DEL ENTORNO",
+        pregunta: "En el recreo, una estudiante deja envoltorios de comida en el suelo del patio. ¿Cuál es el problema?",
+        opciones: [
+            "Ninguno, porque el personal de limpieza los recogerá.",
+            "El patio se verá más colorido.",
+            "Puede ensuciar el entorno y atraer insectos o animales."
+        ],
+        correcta: 2,
+        explicacion: "¡Exacto! Depositar los residuos en los recipientes correspondientes ayuda a mantener los espacios limpios y saludables."
+    },
+    {
+        categoria: "HIGIENE DE LAS MANOS",
+        pregunta: "Después de utilizar el baño, un estudiante sale sin lavarse las manos. ¿Por qué es un error?",
+        opciones: [
+            "Porque debe lavarse las manos antes de salir del baño.",
+            "Porque solamente necesita lavárselas antes de dormir.",
+            "Porque el agua sola siempre elimina todos los microorganismos."
+        ],
+        correcta: 0,
+        explicacion: "¡Correcto! Después de utilizar el baño, debes lavarte las manos con agua y jabón para reducir la transmisión de microorganismos."
+    },
+    {
+        categoria: "MITOS DE HIGIENE",
+        pregunta: "Una persona afirma que compartir una toalla personal no representa ningún riesgo. ¿Qué respuesta es más adecuada?",
+        opciones: [
+            "Es correcto si la toalla tiene buen olor.",
+            "Es mejor utilizar una toalla personal y mantenerla limpia y seca.",
+            "Las toallas no necesitan lavarse."
+        ],
+        correcta: 1,
+        explicacion: "¡Bien hecho! No es recomendable compartir toallas personales. Deben lavarse con regularidad y dejarse secar adecuadamente."
+    },
+    {
+        categoria: "AGUA SEGURA",
+        pregunta: "Un estudiante encuentra agua de origen desconocido y decide beberla porque se ve transparente. ¿Qué error comete?",
+        opciones: [
+            "Ninguno: el agua transparente siempre es segura.",
+            "El agua solamente es peligrosa si tiene color.",
+            "El aspecto transparente no garantiza que el agua sea potable."
+        ],
+        correcta: 2,
+        explicacion: "¡Correcto! El agua puede contener microorganismos o sustancias peligrosas aunque parezca limpia. Consume agua de una fuente segura."
+    },
+    {
+        categoria: "HÁBITOS SALUDABLES",
+        pregunta: "Una estudiante cree que lavarse las manos no es necesario si sus manos parecen limpias. ¿Qué debería saber?",
+        opciones: [
+            "Los microorganismos pueden estar presentes aunque no se vean.",
+            "Las manos solamente acumulan suciedad visible.",
+            "Lavarse las manos es necesario únicamente cuando hace calor."
+        ],
+        correcta: 0,
+        explicacion: "¡Excelente! Muchos microorganismos no se ven a simple vista. Por eso es importante lavarse las manos en momentos clave, aunque parezcan limpias."
+    }
+];
+
+let indice = 0;
+let puntos = 0;
+let aciertos = 0;
+let respondida = false;
+
+function mostrarPregunta() {
+    respondida = false;
+
+    const p = preguntas[indice];
+
+    document.getElementById("numero").textContent =
+        (indice + 1) + "/" + preguntas.length;
+
+    document.getElementById("puntos").textContent = puntos;
+    document.getElementById("aciertos").textContent = aciertos;
+
+    document.getElementById("barra").style.width =
+        ((indice) / preguntas.length * 100) + "%";
+
+    document.getElementById("categoria").textContent = p.categoria;
+    document.getElementById("pregunta").textContent = p.pregunta;
+
+    document.getElementById("retroalimentacion").style.display = "none";
+    document.getElementById("botonSiguiente").style.display = "none";
+
+    const zona = document.getElementById("opciones");
+    zona.innerHTML = "";
+
+    p.opciones.forEach((opcion, i) => {
+        const boton = document.createElement("button");
+        boton.className = "opcion";
+
+        const letra = document.createElement("span");
+        letra.className = "letra";
+        letra.textContent = String.fromCharCode(65 + i);
+
+        boton.appendChild(letra);
+        boton.appendChild(document.createTextNode(opcion));
+
+        boton.onclick = () => comprobarRespuesta(i, boton);
+
+        zona.appendChild(boton);
+    });
+}
+
+function comprobarRespuesta(seleccion, botonElegido) {
+    if (respondida) return;
+
+    respondida = true;
+
+    const p = preguntas[indice];
+    const botones = document.querySelectorAll(".opcion");
+    const esCorrecta = seleccion === p.correcta;
+
+    botones.forEach(b => b.disabled = true);
+
+    botones[p.correcta].classList.add("correcta");
+
+    if (esCorrecta) {
+        puntos += 10;
+        aciertos++;
+
+        document.getElementById("tituloRetro").textContent = "¡RESPUESTA CORRECTA!";
+        document.getElementById("retroalimentacion").style.borderLeftColor =
+            "var(--verde)";
+    } else {
+        botonElegido.classList.add("incorrecta");
+
+        document.getElementById("tituloRetro").textContent = "¡HAY ALGO QUE APRENDER!";
+        document.getElementById("retroalimentacion").style.borderLeftColor =
+            "var(--rojo)";
+    }
+
+    document.getElementById("textoRetro").textContent = p.explicacion;
+    document.getElementById("retroalimentacion").style.display = "block";
+
+    document.getElementById("puntos").textContent = puntos;
+    document.getElementById("aciertos").textContent = aciertos;
+
+    document.getElementById("barra").style.width =
+        ((indice + 1) / preguntas.length * 100) + "%";
+
+    const siguiente = document.getElementById("botonSiguiente");
+    siguiente.textContent =
+        indice === preguntas.length - 1
+        ? "VER RESULTADOS →"
+        : "SIGUIENTE DESAFÍO →";
+
+    siguiente.style.display = "block";
+}
+
+function siguientePregunta() {
+    if (indice < preguntas.length - 1) {
+        indice++;
+        mostrarPregunta();
+    } else {
+        mostrarResultado();
+    }
+}
+
+function mostrarResultado() {
+    document.getElementById("zonaJuego").style.display = "none";
+    document.getElementById("zonaResultado").style.display = "block";
+
+    const porcentaje = Math.round(aciertos / preguntas.length * 100);
+
+    document.getElementById("puntuacionFinal").textContent =
+        puntos + "/100";
+
+    document.getElementById("detalleResultado").textContent =
+        "Respuestas correctas: " + aciertos + " de " + preguntas.length +
+        " (" + porcentaje + "%).";
+
+    let titulo, mensaje, icono;
+
+    if (porcentaje === 100) {
+        titulo = "¡EXPERTO EN HIGIENE!";
+        mensaje = "¡Impresionante! Identificaste todos los errores. Sigue practicando y comparte tus conocimientos.";
+        icono = "🏆";
+    } else if (porcentaje >= 70) {
+        titulo = "¡AGENTE SALUDABLE!";
+        mensaje = "¡Buen trabajo! Conoces muchos hábitos de higiene. Continúa aprendiendo para mejorar todavía más.";
+        icono = "🟢";
+    } else if (porcentaje >= 40) {
+        titulo = "¡VAS POR BUEN CAMINO!";
+        mensaje = "Has aprendido algunas cosas importantes. Repasa las explicaciones y vuelve a intentarlo.";
+        icono = "🔎";
+    } else {
+        titulo = "¡MISIÓN DE APRENDIZAJE!";
+        mensaje = "No te preocupes. Cada error es una oportunidad para aprender. Lee las explicaciones y prueba otra vez.";
+        icono = "🧠";
+    }
+
+    document.getElementById("tituloResultado").textContent = titulo;
+    document.getElementById("mensajeResultado").textContent = mensaje;
+    document.getElementById("iconoResultado").textContent = icono;
+}
+
+function reiniciarJuego() {
+    indice = 0;
+    puntos = 0;
+    aciertos = 0;
+
+    document.getElementById("zonaJuego").style.display = "block";
+    document.getElementById("zonaResultado").style.display = "none";
+
+    mostrarPregunta();
+}
+
+mostrarPregunta();
+</script>
+
+</body>
+</html>
+```
